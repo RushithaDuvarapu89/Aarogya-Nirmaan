@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "vehicleNumber": "AP09AB1234",
+    "driver": "Ramesh",
+    "status": "AVAILABLE",
+    "eta": "8 min"
+  },
+  {
+    "id": 2,
+    "vehicleNumber": "TS10CD5678",
+    "driver": "Suresh",
+    "status": "AVAILABLE",
+    "eta": "12 min"
+  }
+]

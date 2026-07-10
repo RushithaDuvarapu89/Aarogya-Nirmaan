@@ -1,0 +1,37 @@
+[
+    {
+        "id": 1,
+        "name": "Paracetamol",
+        "quantity": 150,
+        "hospital": "Government General Hospital",
+        "distance": "2 km"
+    },
+    {
+        "id": 2,
+        "name": "Amoxicillin",
+        "quantity": 90,
+        "hospital": "Area Hospital",
+        "distance": "5 km"
+    },
+    {
+        "id": 3,
+        "name": "Insulin",
+        "quantity": 40,
+        "hospital": "District Hospital",
+        "distance": "8 km"
+    },
+    {
+        "id": 4,
+        "name": "Saline",
+        "quantity": 200,
+        "hospital": "Government General Hospital",
+        "distance": "2 km"
+    },
+    {
+        "id": 5,
+        "name": "Oxygen Cylinder",
+        "quantity": 25,
+        "hospital": "District Hospital",
+        "distance": "8 km"
+    }
+]

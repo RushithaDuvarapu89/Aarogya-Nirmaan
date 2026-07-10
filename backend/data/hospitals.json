@@ -1,0 +1,35 @@
+ [
+  {
+    "id": 1,
+    "name": "CARE Hospital",
+    "city": "Hyderabad",
+    "icuBeds": 4,
+    "ambulance": 2,
+    "status": "Available",
+    "ventilator": true,
+    "distance": "4.8 km",
+    "eta": "12 min"
+  },
+  {
+    "id": 2,
+    "name": "Apollo Hospital",
+    "city": "Hyderabad",
+    "icuBeds": 0,
+    "ambulance": 3,
+    "status": "Full",
+    "ventilator": true,
+    "distance": "3.2 km",
+    "eta": "10 min"
+  },
+  {
+    "id": 3,
+    "name": "Yashoda Hospital",
+    "city": "Hyderabad",
+    "icuBeds": 2,
+    "ambulance": 1,
+    "status": "Limited",
+    "ventilator": false,
+    "distance": "6.1 km",
+    "eta": "15 min"
+  }
+]
