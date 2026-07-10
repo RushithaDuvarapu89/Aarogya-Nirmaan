@@ -80,12 +80,11 @@ function Home() {
 
                     </h1>
 
-                    <p className="mt-8 text-xl text-gray-600">
-
-                        Aarogya Nirmaan helps patients find the best nearby
-                        hospitals based on ICU availability, ambulances,
-                        ventilators, medicines and AI recommendation.
-
+                    <p className="text-gray-600 text-xl leading-relaxed">
+                            Aarogya Nirmaan helps patients find the best nearby hospitals
+                            based on doctor's availability, bed & ICU availability,
+                            ambulance services, ventilator support, medicine availability,
+                            and AI-powered recommendations.
                     </p>
 
                     <Link

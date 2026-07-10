@@ -15,19 +15,19 @@ function RoleSelection() {
             title: "Patient",
             icon: <User size={50} className="text-blue-600" />,
             color: "border-blue-500",
-            path: "/patient-login"
+            role: "patient"
         },
         {
             title: "Doctor",
             icon: <Stethoscope size={50} className="text-green-600" />,
             color: "border-green-500",
-            path: "/doctor-login"
+            role: "doctor"
         },
         {
             title: "Receptionist",
             icon: <ClipboardList size={50} className="text-orange-500" />,
             color: "border-orange-500",
-            path: "/receptionist-login"
+            role: "receptionist"
         }
     ];
 
@@ -40,11 +40,8 @@ function RoleSelection() {
             <div className="p-6">
 
                 <button
-
                     onClick={() => navigate("/")}
-
                     className="flex items-center gap-2 text-blue-700 hover:text-blue-900"
-
                 >
 
                     <ArrowLeft size={20} />
@@ -71,54 +68,54 @@ function RoleSelection() {
 
                 <div className="grid md:grid-cols-3 gap-10 mt-16">
 
-                    {
+                    {roles.map((role) => (
 
-                        roles.map((role) => (
+                        <div
+                            key={role.title}
+                            onClick={() =>
+                                navigate("/login", {
+                                    state: {
+                                        role: role.role
+                                    }
+                                })
+                            }
+                            className={`
+                                cursor-pointer
+                                bg-white
+                                rounded-3xl
+                                shadow-lg
+                                p-10
+                                w-72
+                                border-4
+                                ${role.color}
+                                hover:scale-105
+                                hover:shadow-2xl
+                                transition-all
+                                duration-300
+                            `}
+                        >
 
-                            <div
+                            <div className="flex justify-center">
 
-                                key={role.title}
-
-                                onClick={() => navigate(role.path)}
-
-                                className={`
-                                    cursor-pointer
-                                    bg-white
-                                    rounded-3xl
-                                    shadow-lg
-                                    p-10
-                                    w-72
-                                    border-4
-                                    ${role.color}
-                                    hover:scale-105
-                                    transition-all
-                                `}
-
-                            >
-
-                                <div className="flex justify-center">
-
-                                    {role.icon}
-
-                                </div>
-
-                                <h2 className="text-3xl font-bold text-center mt-6">
-
-                                    {role.title}
-
-                                </h2>
-
-                                <p className="text-center text-gray-500 mt-3">
-
-                                    Continue as {role.title}
-
-                                </p>
+                                {role.icon}
 
                             </div>
 
-                        ))
+                            <h2 className="text-3xl font-bold text-center mt-6">
 
-                    }
+                                {role.title}
+
+                            </h2>
+
+                            <p className="text-center text-gray-500 mt-3">
+
+                                Continue as {role.title}
+
+                            </p>
+
+                        </div>
+
+                    ))}
 
                 </div>
 

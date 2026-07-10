@@ -11,7 +11,10 @@ import Referral from "./pages/Referral";
 import Hospitals from "./pages/Hospitals";
 import Ambulances from "./pages/Ambulances";
 import Home from "./pages/Home";
-import PatientLogin from "./pages/PatientLogin";
+import Login from "./pages/Login";
+import PatientDashboard from "./pages/PatientDashboard";
+import DoctorDashboard from "./pages/DoctorDashboard";
+import ReceptionDashboard from "./pages/ReceptionDashboard";
 import RoleSelection from "./pages/RoleSelection";
 function App() {
 
@@ -55,10 +58,22 @@ function App() {
                     element={<RoleSelection />}
                 />
 
-                <Route
-                path="/patient-login"
-                element={<PatientLogin />}
+                <Route path="/login" 
+                element={<Login />} 
                 />
+
+                <Route path="/patient-dashboard"
+                element={<PatientDashboard />}
+                />
+
+                <Route path="/doctor-dashboard"
+                element={<DoctorDashboard />} 
+                />
+
+                <Route path="/reception-dashboard" 
+                element={<ReceptionDashboard />} 
+                />
+
 
                 </Routes>
 
