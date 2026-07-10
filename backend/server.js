@@ -6,6 +6,7 @@ const referralRoutes = require("./routes/referrals");
 const dashboardRoutes = require("./routes/dashboard");
 const recommendRoutes = require("./routes/recommend");
 const referralStatusRoutes = require("./routes/referralStatus");
+const ambulanceRoutes = require("./routes/ambulances");
 const deleteReferralRoutes =
 require("./routes/deleteReferral");
 const editReferralRoutes =
@@ -24,6 +25,7 @@ app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/recommend", recommendRoutes);
 app.use("/api/referral-status", referralStatusRoutes);
 app.use("/api/medicines", medicineRoutes);
+app.use("/api/ambulances", ambulanceRoutes);
 app.use(
     "/api/delete-referral",
     deleteReferralRoutes

@@ -33,8 +33,10 @@ function Hospitals() {
 
             const data = await response.json();
 
+              console.log("Hospital Data:", data);
+              console.log("Length:", data.length);
 
-            setHospitals(data);
+              setHospitals(data);
 
 
 
@@ -70,7 +72,7 @@ function Hospitals() {
 
 
 
-
+console.log("Hospitals State:", hospitals);
     return (
 
         <div className="bg-gray-100 min-h-screen">
@@ -129,7 +131,7 @@ function Hospitals() {
 
                         <div
 
-                            key={hospital._id}
+                            key={hospital.id}
 
                             className="
                             bg-white
@@ -248,4 +250,4 @@ function Hospitals() {
 }
 
 
-export default Hospitals;;
+export default Hospitals;

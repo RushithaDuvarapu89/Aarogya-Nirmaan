@@ -48,7 +48,7 @@ function PatientLogin() {
 
         // Redirect to Patient Dashboard
 
-        navigate("/dashboard");
+        navigate("/patient-dashboard");
 
     }
 

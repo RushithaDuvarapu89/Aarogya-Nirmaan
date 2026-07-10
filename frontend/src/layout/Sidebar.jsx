@@ -8,22 +8,21 @@ function Sidebar() {
 
         {
             name: "Dashboard",
-            path: "/dashboard",
+            path: "/doctor-dashboard",
         },
-
         {
             name: "Referrals",
-            path: "/dashboard",
-        },
+            path: "/referral",
+            },
 
         {
             name: "Hospitals",
-            path: "/dashboard",
+            path: "/hospitals",
         },
 
         {
             name: "Ambulances",
-            path: "/dashboard",
+            path: "/ambulances",
         },
 
         {
@@ -41,16 +40,17 @@ function Sidebar() {
     return (
 
         <div className="fixed left-0 top-0 h-screen w-64 bg-slate-900 text-white p-6">
-            <div className="p-3">
-                Smart Referral
-            </div>
+            <div className="mb-10 text-center">
 
-            <h1 className="text-2xl font-bold mb-10">
+               <h1 className="text-3xl font-bold text-white">
+                            🏥 Aarogya
+                            </h1>
 
-                🚑 Referral Platform
+                   <h2 className="text-2xl font-semibold text-green-400">
+                                  Nirmaan
+                    </h2>
 
-            </h1>
-
+                   </div>
             <div className="space-y-3">
 
                 {
