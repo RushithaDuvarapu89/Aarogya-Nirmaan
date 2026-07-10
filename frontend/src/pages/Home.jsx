@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
 import {
+    ArrowRight,
     HeartPulse,
     Hospital,
-    ShieldCheck,
-    ArrowRight
+    ShieldCheck
 } from "lucide-react";
+
+import Navbar from "../components/Navbar";
+import heroHospital from "../assets/hero-hospital.jpg";
 
 function Home() {
 
@@ -12,194 +15,171 @@ function Home() {
 
         <div className="min-h-screen bg-gray-50">
 
-            {/* Navbar */}
+            <Navbar />
 
-            <nav className="bg-white shadow-md">
+            {/* Hero Section */}
 
-                <div className="max-w-7xl mx-auto flex justify-between items-center px-8 py-5">
+            <section className="pt-36 pb-20">
 
-                    <div className="flex items-center gap-3">
+                <div className="max-w-7xl mx-auto px-8 grid md:grid-cols-2 gap-16 items-center">
 
-                        <HeartPulse
-                            className="text-red-600"
-                            size={34}
-                        />
+                    {/* Left */}
 
-                        <h1 className="text-3xl font-bold text-blue-700">
+                    <div>
 
-                            Aarogya Nirmaan
+                        <h1 className="text-6xl font-bold text-blue-700 leading-tight">
+
+                            AI Powered
+
+                            <br />
+
+                            Smart Hospital
+
+                            <br />
+
+                            Referral Platform
 
                         </h1>
 
-                    </div>
+                        <p className="mt-8 text-xl text-gray-600 leading-10">
 
-                    <div className="flex gap-8 text-lg font-medium">
+                            Aarogya Nirmaan helps patients find the best nearby
+                            hospitals based on doctor's availability,
+                            Bed/ICU availability, ambulances,
+                            ventilators, medicines and AI-powered
+                            recommendations.
 
-                        <Link to="/">Home</Link>
-
-                        <Link to="/media">Media</Link>
-
-                        <Link to="/about">About</Link>
-
-                        <Link to="/faq">FAQs</Link>
-
-                        <Link to="/support">Support</Link>
+                        </p>
 
                         <Link
                             to="/roles"
-                            className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700"
+                            className="inline-flex items-center gap-3 mt-10 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl text-lg"
                         >
 
-                            Register / Login
+                            Get Started
+
+                            <ArrowRight size={22} />
 
                         </Link>
 
                     </div>
 
-                </div>
+                    {/* Right */}
 
-            </nav>
+                    <div>
 
-            {/* Hero Section */}
+                        <img
+                            src={heroHospital}
+                            alt="Hospital"
+                            className="rounded-3xl shadow-2xl"
+                        />
 
-            <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center py-20 px-8">
-
-                <div>
-
-                    <h1 className="text-6xl font-bold text-blue-700 leading-tight">
-
-                        AI Powered
-
-                        <br />
-
-                        Smart Hospital
-
-                        <br />
-
-                        Referral System
-
-                    </h1>
-
-                    <p className="text-gray-600 text-xl leading-relaxed">
-                            Aarogya Nirmaan helps patients find the best nearby hospitals
-                            based on doctor's availability, bed & ICU availability,
-                            ambulance services, ventilator support, medicine availability,
-                            and AI-powered recommendations.
-                    </p>
-
-                    <Link
-
-                        to="/roles"
-
-                        className="inline-flex items-center gap-3 mt-10 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl text-lg"
-
-                    >
-
-                        Get Started
-
-                        <ArrowRight />
-
-                    </Link>
+                    </div>
 
                 </div>
 
-                <div className="flex justify-center">
-
-                    <img
-
-                        src="https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?w=900"
-
-                        alt="Hospital"
-
-                        className="rounded-3xl shadow-2xl"
-
-                    />
-
-                </div>
-
-            </div>
+            </section>
 
             {/* Features */}
 
-            <div className="max-w-7xl mx-auto py-16 px-8">
+            <section className="py-20 bg-white">
 
-                <h2 className="text-4xl font-bold text-center mb-12">
+                <div className="max-w-7xl mx-auto px-8">
 
-                    Why Aarogya Nirmaan?
+                    <h2 className="text-5xl font-bold text-center text-blue-700">
 
-                </h2>
+                        Why Aarogya Nirmaan?
 
-                <div className="grid md:grid-cols-3 gap-8">
+                    </h2>
 
-                    <div className="bg-white p-8 rounded-2xl shadow">
+                    <p className="text-center text-gray-600 mt-5 text-lg">
 
-                        <Hospital
-                            className="text-blue-600"
-                            size={45}
-                        />
+                        Everything required during an emergency in one platform.
 
-                        <h3 className="text-2xl font-bold mt-4">
+                    </p>
 
-                            Smart Referral
+                    <div className="grid md:grid-cols-3 gap-10 mt-16">
 
-                        </h3>
+                        {/* Card */}
 
-                        <p className="mt-3 text-gray-600">
+                        <div className="bg-gray-50 rounded-3xl shadow-lg p-8 hover:shadow-2xl transition">
 
-                            AI recommends the best hospital based on
-                            available facilities.
+                            <Hospital
+                                className="text-blue-600"
+                                size={50}
+                            />
 
-                        </p>
+                            <h3 className="text-2xl font-bold mt-6">
 
-                    </div>
+                                Smart Hospital Search
 
-                    <div className="bg-white p-8 rounded-2xl shadow">
+                            </h3>
 
-                        <ShieldCheck
-                            className="text-green-600"
-                            size={45}
-                        />
+                            <p className="mt-4 text-gray-600 leading-8">
 
-                        <h3 className="text-2xl font-bold mt-4">
+                                Search hospitals based on doctors,
+                                ICU beds, ventilators, medicines,
+                                ambulances and emergency facilities.
 
-                            Faster Emergency Care
+                            </p>
 
-                        </h3>
+                        </div>
 
-                        <p className="mt-3 text-gray-600">
+                        {/* Card */}
 
-                            Reduce referral delays during emergency
-                            situations.
+                        <div className="bg-gray-50 rounded-3xl shadow-lg p-8 hover:shadow-2xl transition">
 
-                        </p>
+                            <ShieldCheck
+                                className="text-green-600"
+                                size={50}
+                            />
 
-                    </div>
+                            <h3 className="text-2xl font-bold mt-6">
 
-                    <div className="bg-white p-8 rounded-2xl shadow">
+                                AI Recommendation
 
-                        <HeartPulse
-                            className="text-red-600"
-                            size={45}
-                        />
+                            </h3>
 
-                        <h3 className="text-2xl font-bold mt-4">
+                            <p className="mt-4 text-gray-600 leading-8">
 
-                            Better Patient Outcomes
+                                AI recommends the most suitable
+                                nearby hospital based on real-time
+                                healthcare resource availability.
 
-                        </h3>
+                            </p>
 
-                        <p className="mt-3 text-gray-600">
+                        </div>
 
-                            Connect patients with hospitals having the
-                            right medical resources.
+                        {/* Card */}
 
-                        </p>
+                        <div className="bg-gray-50 rounded-3xl shadow-lg p-8 hover:shadow-2xl transition">
+
+                            <HeartPulse
+                                className="text-red-600"
+                                size={50}
+                            />
+
+                            <h3 className="text-2xl font-bold mt-6">
+
+                                Faster Emergency Care
+
+                            </h3>
+
+                            <p className="mt-4 text-gray-600 leading-8">
+
+                                Reduce referral delays and improve
+                                patient outcomes through smart
+                                hospital recommendations.
+
+                            </p>
+
+                        </div>
 
                     </div>
 
                 </div>
 
-            </div>
+            </section>
 
         </div>
 

@@ -11,6 +11,10 @@ import Referral from "./pages/Referral";
 import Hospitals from "./pages/Hospitals";
 import Ambulances from "./pages/Ambulances";
 import Home from "./pages/Home";
+import MediaPage from "./pages/MediaPage";
+import AboutPage from "./pages/AboutPage";
+import FAQsPage from "./pages/FAQsPage";
+import SupportPage from "./pages/SupportPage";
 import Login from "./pages/Login";
 import PatientDashboard from "./pages/PatientDashboard";
 import DoctorDashboard from "./pages/DoctorDashboard";
@@ -73,8 +77,20 @@ function App() {
                 <Route path="/reception-dashboard" 
                 element={<ReceptionDashboard />} 
                 />
-
-
+                <Route
+                path="/media"
+                element={<MediaPage />}
+                />
+                <Route
+                path="/support"
+                element={<SupportPage />}
+                />
+                <Route path="/about" 
+                element={<AboutPage />} 
+                />
+                <Route path="/faqs" 
+                element={<FAQsPage />} 
+                />
                 </Routes>
 
         </BrowserRouter>

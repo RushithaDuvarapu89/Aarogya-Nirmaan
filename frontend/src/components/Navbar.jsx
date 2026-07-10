@@ -1,93 +1,106 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { HeartPulse } from "lucide-react";
 
 function Navbar() {
+    const location = useLocation();
+
+    const isActive = (path) => location.pathname === path;
 
     return (
+        <nav className="fixed top-0 left-0 w-full bg-white shadow-lg z-50">
 
-        <nav className="bg-white shadow-md fixed top-0 left-0 w-full z-50">
+            <div className="max-w-7xl mx-auto flex justify-between items-center px-8 py-5">
 
-            <div className="max-w-7xl mx-auto px-8">
+                {/* Logo */}
 
-                <div className="flex justify-between items-center h-20">
+                <Link
+                    to="/"
+                    className="flex items-center gap-3"
+                >
+                    <HeartPulse
+                        className="text-red-600"
+                        size={34}
+                    />
 
-                    {/* Logo */}
+                    <h1 className="text-3xl font-bold text-blue-700">
+                        Aarogya Nirmaan
+                    </h1>
+                </Link>
 
-                    <div>
+                {/* Navigation */}
 
-                        <h1 className="text-3xl font-bold text-blue-700">
+                <div className="flex items-center gap-8 text-lg font-medium">
 
-                            Aarogya Nirmaan
+                    <Link
+                        to="/"
+                        className={`transition ${
+                            isActive("/")
+                                ? "text-blue-700 font-bold"
+                                : "text-gray-700 hover:text-blue-600"
+                        }`}
+                    >
+                        Home
+                    </Link>
 
-                        </h1>
+                    <Link
+                        to="/media"
+                        className={`transition ${
+                            isActive("/media")
+                                ? "text-blue-700 font-bold"
+                                : "text-gray-700 hover:text-blue-600"
+                        }`}
+                    >
+                        Media
+                    </Link>
 
-                    </div>
+                    <Link
+                        to="/about"
+                        className={`transition ${
+                            isActive("/about")
+                                ? "text-blue-700 font-bold"
+                                : "text-gray-700 hover:text-blue-600"
+                        }`}
+                    >
+                        About
+                    </Link>
 
-                    {/* Menu */}
+                    <Link
+                        to="/faqs"
+                        className={`transition ${
+                            isActive("/faqs")
+                                ? "text-blue-700 font-bold"
+                                : "text-gray-700 hover:text-blue-600"
+                        }`}
+                    >
+                        FAQs
+                    </Link>
 
-                    <div className="flex items-center gap-8 font-semibold">
-
-                        <Link
-                            to="/"
-                            className="hover:text-blue-600 transition"
-                        >
-                            Home
-                        </Link>
-
-                        <Link
-                            to="/media"
-                            className="hover:text-blue-600 transition"
-                        >
-                            Media
-                        </Link>
-
-                        <Link
-                            to="/about"
-                            className="hover:text-blue-600 transition"
-                        >
-                            About
-                        </Link>
-
-                        <Link
-                            to="/faqs"
-                            className="hover:text-blue-600 transition"
-                        >
-                            FAQs
-                        </Link>
-
-                        <Link
-                            to="/support"
-                            className="hover:text-blue-600 transition"
-                        >
-                            Support
-                        </Link>
-
-                        <Link
-                            to="/auth"
-                            className="
-                            bg-blue-600
-                            hover:bg-blue-700
-                            text-white
-                            px-5
-                            py-2
-                            rounded-lg
-                            transition
-                            "
-                        >
-
-                            Register / Login
-
-                        </Link>
-
-                    </div>
+                    <Link
+                        to="/support"
+                        className={`transition ${
+                            isActive("/support")
+                                ? "text-blue-700 font-bold"
+                                : "text-gray-700 hover:text-blue-600"
+                        }`}
+                    >
+                        Support
+                    </Link>
 
                 </div>
+
+                {/* Register/Login */}
+
+                <Link
+                    to="/roles"
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition duration-300 shadow-md hover:shadow-lg"
+                >
+                    Register / Login
+                </Link>
 
             </div>
 
         </nav>
-
     );
-
 }
 
 export default Navbar;
