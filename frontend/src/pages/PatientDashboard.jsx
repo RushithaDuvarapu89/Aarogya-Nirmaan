@@ -2,56 +2,11 @@ import { useState, useEffect } from "react";
 import Sidebar from "../layout/Sidebar";
 import Header from "../components/Header";
 import StatCard from "../components/StatCard";
+import { addPatientRegistration, seedSharedDemoData, getDashboardStats, MASTER_DOCTORS } from "../utils/sharedData";
 
-// Mock Doctors Data aligned with Dashboard metrics (Government Rural Hospitals):
-// 18 Available, 14 Busy (In Surgery/Consultation) = 32 On-Duty.
-// 7 Offline/Unavailable. Total = 39.
-const doctorsData = [
-    // Available Doctors (18)
-    { name: "Dr. Rajesh Kumar", specialty: "Cardiologist", hospital: "Government CHC Chevella", status: "Available", phone: "+91 98765 43210" },
-    { name: "Dr. Anita Sharma", specialty: "Pediatrician", hospital: "Government PHC Shabad", status: "Available", phone: "+91 87654 32109" },
-    { name: "Dr. Vikram Reddy", specialty: "Orthopedic Surgeon", hospital: "Govt Area Hospital, Kondapur", status: "Available", phone: "+91 76543 21098" },
-    { name: "Dr. Priya Patel", specialty: "General Physician", hospital: "Government CHC Chevella", status: "Available", phone: "+91 65432 10987" },
-    { name: "Dr. Sanjay Dutt", specialty: "Neurologist", hospital: "Government PHC Shabad", status: "Available", phone: "+91 54321 09876" },
-    { name: "Dr. Meera Sen", specialty: "Gynecologist", hospital: "Govt Area Hospital, Kondapur", status: "Available", phone: "+91 43210 98765" },
-    { name: "Dr. Amit Verma", specialty: "Dermatologist", hospital: "Government CHC Chevella", status: "Available", phone: "+91 32109 87654" },
-    { name: "Dr. Shalini Gupta", specialty: "Ophthalmologist", hospital: "Government PHC Shabad", status: "Available", phone: "+91 21098 76543" },
-    { name: "Dr. Rohan Das", specialty: "ENT Specialist", hospital: "Govt Area Hospital, Kondapur", status: "Available", phone: "+91 10987 65432" },
-    { name: "Dr. Sunita Rao", specialty: "Oncologist", hospital: "Government CHC Chevella", status: "Available", phone: "+91 99887 76655" },
-    { name: "Dr. Alok Mishra", specialty: "Psychiatrist", hospital: "Government PHC Shabad", status: "Available", phone: "+91 88776 65544" },
-    { name: "Dr. Neha Kapoor", specialty: "Endocrinologist", hospital: "Govt Area Hospital, Kondapur", status: "Available", phone: "+91 77665 54433" },
-    { name: "Dr. Sandeep Singh", specialty: "Urologist", hospital: "Government CHC Chevella", status: "Available", phone: "+91 66554 43322" },
-    { name: "Dr. Divya Teja", specialty: "Nephrologist", hospital: "Government PHC Shabad", status: "Available", phone: "+91 55443 32211" },
-    { name: "Dr. Manoj Bajpayee", specialty: "Gastroenterologist", hospital: "Govt Area Hospital, Kondapur", status: "Available", phone: "+91 44332 21100" },
-    { name: "Dr. Kiran Bedi", specialty: "Pulmonologist", hospital: "Government CHC Chevella", status: "Available", phone: "+91 33221 10099" },
-    { name: "Dr. Harish Rao", specialty: "Rheumatologist", hospital: "Government PHC Shabad", status: "Available", phone: "+91 22110 09988" },
-    { name: "Dr. Preeti Shenoy", specialty: "Dentist", hospital: "Govt Area Hospital, Kondapur", status: "Available", phone: "+91 11009 98877" },
-
-    // Busy / In Consultation / Surgery (14) - count as On-Duty
-    { name: "Dr. K. Somnath", specialty: "Surgeon", hospital: "Government CHC Chevella", status: "In Surgery", phone: "+91 90001 12233" },
-    { name: "Dr. Aruna Roy", specialty: "Cardiologist", hospital: "Government PHC Shabad", status: "In Consultation", phone: "+91 90002 23344" },
-    { name: "Dr. G. Venkat", specialty: "Neurologist", hospital: "Govt Area Hospital, Kondapur", status: "In Surgery", phone: "+91 90003 34455" },
-    { name: "Dr. S. K. Gupta", specialty: "General Physician", hospital: "Government CHC Chevella", status: "In Consultation", phone: "+91 90004 45566" },
-    { name: "Dr. M. S. Swaminathan", specialty: "Pediatrician", hospital: "Government PHC Shabad", status: "In Consultation", phone: "+91 90005 56677" },
-    { name: "Dr. Kiran Mazumdar", specialty: "Dermatologist", hospital: "Govt Area Hospital, Kondapur", status: "In Consultation", phone: "+91 90006 67788" },
-    { name: "Dr. Devi Shetty", specialty: "Cardiac Surgeon", hospital: "Government CHC Chevella", status: "In Surgery", phone: "+91 90007 78899" },
-    { name: "Dr. Naresh Trehan", specialty: "Cardiologist", hospital: "Government PHC Shabad", status: "In Consultation", phone: "+91 90008 89900" },
-    { name: "Dr. Belle Hegde", specialty: "General Physician", hospital: "Govt Area Hospital, Kondapur", status: "In Consultation", phone: "+91 90009 90011" },
-    { name: "Dr. V. Shanta", specialty: "Oncologist", hospital: "Government CHC Chevella", status: "In Consultation", phone: "+91 90010 01122" },
-    { name: "Dr. Kamini Rao", specialty: "Gynecologist", hospital: "Government PHC Shabad", status: "In Consultation", phone: "+91 90011 12233" },
-    { name: "Dr. Indira Hinduja", specialty: "Gynecologist", hospital: "Govt Area Hospital, Kondapur", status: "In Consultation", phone: "+91 90012 23344" },
-    { name: "Dr. Subhash Mukhopadhyay", specialty: "Gynecologist", hospital: "Government CHC Chevella", status: "In Consultation", phone: "+91 90013 34455" },
-    { name: "Dr. B. K. Misra", specialty: "Neurosurgeon", hospital: "Government PHC Shabad", status: "In Surgery", phone: "+91 90014 45566" },
-
-    // Offline / Unavailable (7)
-    { name: "Dr. Sudhanshu Bhatt", specialty: "Neurologist", hospital: "Govt Area Hospital, Kondapur", status: "Offline", phone: "+91 90015 56677" },
-    { name: "Dr. Prathap C. Reddy", specialty: "Cardiologist", hospital: "Government PHC Shabad", status: "Offline", phone: "+91 90016 67788" },
-    { name: "Dr. Upendra Kaul", specialty: "Cardiologist", hospital: "Government CHC Chevella", status: "Offline", phone: "+91 90017 78899" },
-    { name: "Dr. T. S. Kler", specialty: "Cardiologist", hospital: "Govt Area Hospital, Kondapur", status: "Offline", phone: "+91 90018 89900" },
-    { name: "Dr. Ashok Seth", specialty: "Cardiologist", hospital: "Government CHC Chevella", status: "Offline", phone: "+91 90019 90011" },
-    { name: "Dr. Tarlochan Singh", specialty: "Cardiologist", hospital: "Government PHC Shabad", status: "Offline", phone: "+91 90020 01122" },
-    { name: "Dr. K. K. Aggarwal", specialty: "General Physician", hospital: "Govt Area Hospital, Kondapur", status: "Offline", phone: "+91 90021 12233" }
-];
+// Use the shared master doctors list - only show Available doctors (first 15) for patients
+const doctorsData = MASTER_DOCTORS.filter(doc => doc.status === "Available");
+const allDoctors = MASTER_DOCTORS;
 
 // Mock Beds Data matching total counters: Total (420) | Occupied (286) | Available (134)
 const hospitalBedsData = [
@@ -189,6 +144,22 @@ function PatientDashboard() {
     // Stats values state
     const [todayApptsCount, setTodayApptsCount] = useState(156);
     const [pendingApptsCount, setPendingApptsCount] = useState(42);
+    const [sharedStats, setSharedStats] = useState({ pending: 0, total: 0, overflowPatients: 0 });
+
+    // Seed demo data on first load and refresh shared stats
+    useEffect(() => {
+        seedSharedDemoData();
+        const stats = getDashboardStats();
+        setSharedStats(stats);
+    }, []);
+    
+    // Refresh stats when booking modal closes
+    useEffect(() => {
+        if (!showBookingModal) {
+            const stats = getDashboardStats();
+            setSharedStats(stats);
+        }
+    }, [showBookingModal]);
 
     // Auto-fill logged in patient if available
     useEffect(() => {
@@ -205,11 +176,14 @@ function PatientDashboard() {
         { title: "Pending Appointments", value: pendingApptsCount.toString(), color: "bg-cyan-600", type: "pending" },
     ];
 
-    // Group 2: Doctor Availability
+    // Group 2: Doctor Availability (dynamic counts from master list)
+    const availableCount = allDoctors.filter(d => d.status === "Available").length;
+    const onDutyCount = allDoctors.filter(d => d.status !== "Offline").length;
+    const offlineCount = allDoctors.filter(d => d.status === "Offline").length;
     const doctorStats = [
-        { title: "Available Doctors", value: "18", color: "bg-green-600", filter: "Available" },
-        { title: "On-Duty Doctors", value: "32", color: "bg-teal-600", filter: "On-Duty" },
-        { title: "Offline / Unavailable", value: "7", color: "bg-gray-500", filter: "Offline" },
+        { title: "Available Doctors", value: availableCount.toString(), color: "bg-green-600", filter: "Available" },
+        { title: "On-Duty Doctors", value: onDutyCount.toString(), color: "bg-teal-600", filter: "On-Duty" },
+        { title: "Offline / Unavailable", value: offlineCount.toString(), color: "bg-gray-500", filter: "Offline" },
     ];
 
     // Group 3: Bed Availability
@@ -290,8 +264,22 @@ function PatientDashboard() {
                 console.error("Failed to post appointment to backend", err);
             }
         } else {
+            // Save to shared data store for receptionist & doctor
+            const registration = addPatientRegistration({
+                patientName: bookingForm.patientName,
+                doctorName: bookingForm.doctorName,
+                hospitalName: bookingForm.hospitalName,
+                date: bookingForm.date,
+                time: bookingForm.time,
+                reason: bookingForm.reason,
+            });
+            
             setTodayApptsCount(prev => prev + 1);
             setPendingApptsCount(prev => prev + 1);
+            
+            // Update shared stats
+            const stats = getDashboardStats();
+            setSharedStats(stats);
         }
 
         setBookingSuccess(true);
@@ -418,6 +406,24 @@ function PatientDashboard() {
                             Real-time overview of doctor availability, bed status, medicine stock, appointments, and emergency cases.
                         </p>
                     </div>
+
+                    {/* Shared Stats Banner */}
+                    {sharedStats.pending > 0 && (
+                        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-6 flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <span className="text-2xl">🔄</span>
+                                <div>
+                                    <p className="font-semibold text-amber-800">{sharedStats.pending} Pending Registration(s)</p>
+                                    <p className="text-xs text-amber-600">Waiting for receptionist approval</p>
+                                </div>
+                            </div>
+                            {sharedStats.overflowPatients > 0 && (
+                                <span className="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-bold">
+                                    🎫 {sharedStats.overflowPatients} Token Overflow
+                                </span>
+                            )}
+                        </div>
+                    )}
 
                     {/* Total Summary Bar */}
                     <div className="bg-white rounded-2xl shadow-md p-6 mb-10 grid grid-cols-6 gap-4 text-center">

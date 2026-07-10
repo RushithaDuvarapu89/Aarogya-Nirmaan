@@ -1,11 +1,15 @@
- import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function Sidebar() {
 
     const location = useLocation();
+    const currPath = location.pathname;
 
-    const menuItems = [
+    // Read the logged-in user's role from localStorage (persists across all pages)
+    const userRole = localStorage.getItem("userRole") || "doctor";
+    const isPatientRoute = userRole === "patient";
 
+    const doctorMenuItems = [
         {
             name: "Dashboard",
             path: "/doctor-dashboard",
@@ -13,29 +17,49 @@ function Sidebar() {
         {
             name: "Referrals",
             path: "/referral",
-            },
-
+        },
         {
             name: "Hospitals",
             path: "/hospitals",
         },
-
         {
             name: "Ambulances",
             path: "/ambulances",
         },
-
         {
             name: "Medicines",
             path: "/medicine",
         },
-
         {
             name: "Analytics",
             path: "/analytics",
         },
-
     ];
+
+    const patientMenuItems = [
+        {
+            name: "Dashboard",
+            path: "/patient-dashboard",
+        },
+        {
+            name: "Book Appointment",
+            path: "/patient-dashboard",
+        },
+        {
+            name: "Hospitals",
+            path: "/hospitals",
+        },
+        {
+            name: "Ambulances",
+            path: "/ambulances",
+        },
+        {
+            name: "Medicines",
+            path: "/medicine",
+        },
+    ];
+
+    const menuItems = isPatientRoute ? patientMenuItems : doctorMenuItems;
 
     return (
 
@@ -63,7 +87,7 @@ function Sidebar() {
 
                             to={item.path}
 
-                            className={`block rounded-lg p-3 transition duration-200 ${location.pathname === item.path
+                            className={`block rounded-lg p-3 transition duration-200 ${currPath === item.path
                                     ? "bg-slate-800"
                                     : "hover:bg-slate-700"
                                 }`}

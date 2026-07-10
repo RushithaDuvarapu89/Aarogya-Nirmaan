@@ -39,6 +39,9 @@ function Login() {
 
         alert("Login Successful");
 
+        // Save the logged-in role to localStorage so Sidebar can read it
+        localStorage.setItem("userRole", role);
+
         if (role === "patient") {
 
             navigate("/patient-dashboard");
@@ -53,7 +56,7 @@ function Login() {
 
         else {
 
-            navigate("/reception-dashboard");
+            navigate("/receptionist-dashboard");
 
         }
 

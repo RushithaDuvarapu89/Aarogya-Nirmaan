@@ -18,7 +18,8 @@ import SupportPage from "./pages/SupportPage";
 import Login from "./pages/Login";
 import PatientDashboard from "./pages/PatientDashboard";
 import DoctorDashboard from "./pages/DoctorDashboard";
-import ReceptionDashboard from "./pages/ReceptionDashboard";
+import ReceptionistDashboard from "./pages/ReceptionistDashboard";
+import PatientHealthRecord from "./pages/PatientHealthRecord";
 import RoleSelection from "./pages/RoleSelection";
 function App() {
 
@@ -74,8 +75,11 @@ function App() {
                 element={<DoctorDashboard />} 
                 />
 
-                <Route path="/reception-dashboard" 
-                element={<ReceptionDashboard />} 
+                <Route path="/receptionist-dashboard" 
+                element={<ReceptionistDashboard />} 
+                />
+                <Route path="/patient-health-record/:patientId" 
+                element={<PatientHealthRecord />} 
                 />
                 <Route
                 path="/media"
