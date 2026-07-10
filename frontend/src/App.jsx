@@ -5,13 +5,14 @@
     Navigate,
 } from "react-router-dom";
 
-import Dashboard from "./pages/Dashboard";
 import Analytics from "./pages/Analytics";
 import MedicineAvailability from "./pages/MedicineAvailability";
 import Referral from "./pages/Referral";
 import Hospitals from "./pages/Hospitals";
 import Ambulances from "./pages/Ambulances";
-
+import Home from "./pages/Home";
+import PatientLogin from "./pages/PatientLogin";
+import RoleSelection from "./pages/RoleSelection";
 function App() {
 
     return (
@@ -20,14 +21,10 @@ function App() {
 
             <Routes>
 
+                
                 <Route
-                    path="/"
-                    element={<Navigate to="/dashboard" />}
-                />
-
-                <Route
-                    path="/dashboard"
-                    element={<Dashboard />}
+                path="/"
+                element={<Home />}
                 />
 
                 <Route
@@ -53,6 +50,16 @@ function App() {
                     element={<MedicineAvailability />}
                 />
                 
+                <Route
+                    path="/roles"
+                    element={<RoleSelection />}
+                />
+
+                <Route
+                path="/patient-login"
+                element={<PatientLogin />}
+                />
+
                 </Routes>
 
         </BrowserRouter>

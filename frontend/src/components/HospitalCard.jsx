@@ -1,9 +1,14 @@
  import {
     Building2,
+    MapPin,
     BedDouble,
     Ambulance,
-    CircleCheck,
-    CircleX,
+    Clock3,
+    Activity,
+    CheckCircle2,
+    XCircle,
+    AlertCircle,
+    Bed
 } from "lucide-react";
 
 function HospitalCard({ hospital }) {
@@ -39,12 +44,12 @@ function HospitalCard({ hospital }) {
 
                     <p className="flex gap-2 text-gray-600">
                         <Bed size={20}/>
-                        ICU Beds: {hospital.icuBeds}
+                        ICU Beds: {hospital.icu}
                         </p>
 
                     <p className="flex gap-2 text-gray-600">
                         <Ambulance size={20}/>
-                        Ambulances: {hospital.ambulance}
+                        Ambulances: {hospital.ambulances}
                     </p>
 
                     <p className="font-semibold">
@@ -120,7 +125,7 @@ function HospitalCard({ hospital }) {
 
                     <span className="inline-flex items-center gap-2 bg-green-100 text-green-700 px-4 py-2 rounded-full font-semibold">
 
-                        <CircleCheck size={18} />
+                        <CheckCircle2 size={18} />
 
                         Available
 
@@ -130,7 +135,7 @@ function HospitalCard({ hospital }) {
 
                     <span className="inline-flex items-center gap-2 bg-red-100 text-red-700 px-4 py-2 rounded-full font-semibold">
 
-                        <CircleX size={18} />
+                        <XCircle size={18} />
 
                         Full
 
