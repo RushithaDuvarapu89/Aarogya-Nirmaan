@@ -359,6 +359,13 @@ function ReceptionistDashboard() {
                   <div>
                     <p className="text-sm font-semibold text-gray-900">{reg.patientName}</p>
                     <p className="text-[10px] text-gray-500">{reg.doctorName} · {reg.hospitalName} · {reg.date} {reg.time}</p>
+                    {reg.recommendedHospital && (
+                      <div className="mt-2 rounded-md border border-emerald-200 bg-emerald-50 px-2 py-2 text-[10px] text-emerald-700">
+                        <div className="font-semibold">Best Hospital: {reg.recommendedHospital.name}</div>
+                        <div>{reg.recommendedHospital.city}</div>
+                        <div>ICU {reg.recommendedHospital.availableEmergencyIcuBeds} · Beds {reg.recommendedHospital.availableBeds} · Vent {reg.recommendedHospital.ventilators}</div>
+                      </div>
+                    )}
                     {reg.isOverflow && (
                       <span className="text-[10px] bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded font-medium">
                         🎫 Token #{reg.token} (Overflow slot)

@@ -5,6 +5,12 @@ import {
     ShieldCheck,
     ArrowLeft
 } from "lucide-react";
+import { DOCTOR_LOGIN_ACCOUNTS } from "../utils/sharedData";
+
+const DOCTOR_OTP_MAP = DOCTOR_LOGIN_ACCOUNTS.reduce((acc, doctor) => {
+    acc[doctor.otp] = doctor;
+    return acc;
+}, {});
 
 function Login() {
 
@@ -16,6 +22,7 @@ function Login() {
     const [mobile, setMobile] = useState("");
     const [otp, setOtp] = useState("");
     const [otpSent, setOtpSent] = useState(false);
+    const [doctorAccount, setDoctorAccount] = useState(null);
 
     function sendOTP() {
 
@@ -24,17 +31,26 @@ function Login() {
             return;
         }
 
-        alert("OTP Sent Successfully!\n(Demo OTP : 123456)");
+        if (role === "doctor") {
+            setDoctorAccount(null);
+            alert("OTP Sent Successfully!");
+            setOtpSent(true);
+            return;
+        }
 
+        alert("OTP Sent Successfully!");
         setOtpSent(true);
     }
 
     function verifyOTP() {
 
-        if (otp !== "123456") {
-
-            alert("Invalid OTP");
-            return;
+        if (role === "doctor") {
+            const matchedDoctor = DOCTOR_OTP_MAP[otp];
+            if (!matchedDoctor) {
+                alert("Invalid OTP");
+                return;
+            }
+            setDoctorAccount(matchedDoctor);
         }
 
         alert("Login Successful");
@@ -50,6 +66,8 @@ function Login() {
 
         else if (role === "doctor") {
 
+            localStorage.setItem("doctorName", doctorAccount?.name || DOCTOR_OTP_MAP[otp]?.name || "");
+            localStorage.setItem("doctorMobile", mobile);
             navigate("/doctor-dashboard");
 
         }

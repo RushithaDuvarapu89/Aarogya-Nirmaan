@@ -80,7 +80,8 @@ router.post("/", (req, res) => {
             age,
             gender,
             condition,
-            severity
+            severity,
+            currentHospital
 
         } = req.body;
 

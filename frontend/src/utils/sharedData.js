@@ -154,6 +154,7 @@ function addDoctorAppointment(registration) {
     date: registration.date,
     time: registration.time,
     reason: registration.reason || "",
+    recommendedHospital: registration.recommendedHospital || null,
     token: registration.token,
     tokenNumber: registration.tokenNumber,
     totalForSlot: registration.totalForSlot,
@@ -204,31 +205,14 @@ export function getDashboardStats() {
 
 // ─── MASTER DOCTORS LIST ─────────────────────────────
 // Single source of truth - used by Patient, Receptionist & Doctor Dashboards
-// First 15 are Available (shown in Patient Dashboard), last 5 are Unavailable (shown in Receptionist & Doctor Dashboards)
-export const MASTER_DOCTORS = [
-  // ── 15 Available Doctors (shown in Patient Dashboard) ──
-  { name: "Dr. Rajesh Kumar", specialty: "Cardiologist", hospital: "Government CHC Chevella", status: "Available", phone: "+91 98765 43210" },
-  { name: "Dr. Anita Sharma", specialty: "Pediatrician", hospital: "Government PHC Shabad", status: "Available", phone: "+91 87654 32109" },
-  { name: "Dr. Vikram Reddy", specialty: "Orthopedic Surgeon", hospital: "Govt Area Hospital, Kondapur", status: "Available", phone: "+91 76543 21098" },
-  { name: "Dr. Priya Patel", specialty: "General Physician", hospital: "Government CHC Chevella", status: "Available", phone: "+91 65432 10987" },
-  { name: "Dr. Sanjay Dutt", specialty: "Neurologist", hospital: "Government PHC Shabad", status: "Available", phone: "+91 54321 09876" },
-  { name: "Dr. Meera Sen", specialty: "Gynecologist", hospital: "Govt Area Hospital, Kondapur", status: "Available", phone: "+91 43210 98765" },
-  { name: "Dr. Amit Verma", specialty: "Dermatologist", hospital: "Government CHC Chevella", status: "Available", phone: "+91 32109 87654" },
-  { name: "Dr. Shalini Gupta", specialty: "Ophthalmologist", hospital: "Government PHC Shabad", status: "Available", phone: "+91 21098 76543" },
-  { name: "Dr. Rohan Das", specialty: "ENT Specialist", hospital: "Govt Area Hospital, Kondapur", status: "Available", phone: "+91 10987 65432" },
-  { name: "Dr. Sunita Rao", specialty: "Oncologist", hospital: "Government CHC Chevella", status: "Available", phone: "+91 99887 76655" },
-  { name: "Dr. Alok Mishra", specialty: "Psychiatrist", hospital: "Government PHC Shabad", status: "Available", phone: "+91 88776 65544" },
-  { name: "Dr. Neha Kapoor", specialty: "Endocrinologist", hospital: "Govt Area Hospital, Kondapur", status: "Available", phone: "+91 77665 54433" },
-  { name: "Dr. Sandeep Singh", specialty: "Urologist", hospital: "Government CHC Chevella", status: "Available", phone: "+91 66554 43322" },
-  { name: "Dr. Divya Teja", specialty: "Nephrologist", hospital: "Government PHC Shabad", status: "Available", phone: "+91 55443 32211" },
-  { name: "Dr. Manoj Bajpayee", specialty: "Gastroenterologist", hospital: "Govt Area Hospital, Kondapur", status: "Available", phone: "+91 44332 21100" },
-  // ── 5 Unavailable Doctors (shown only in Receptionist & Doctor Dashboards) ──
-  { name: "Dr. Kiran Bedi", specialty: "Pulmonologist", hospital: "Government CHC Chevella", status: "In Surgery", phone: "+91 33221 10099" },
-  { name: "Dr. Harish Rao", specialty: "Rheumatologist", hospital: "Government PHC Shabad", status: "In Consultation", phone: "+91 22110 09988" },
-  { name: "Dr. Preeti Shenoy", specialty: "Dentist", hospital: "Govt Area Hospital, Kondapur", status: "Offline", phone: "+91 11009 98877" },
-  { name: "Dr. Arjun Reddy", specialty: "Cardiologist", hospital: "Gandhi Government Hospital, Hyderabad", status: "In Surgery", phone: "+91 98765 43210" },
-  { name: "Dr. Priya Sharma", specialty: "Cardiologist", hospital: "Government General Hospital, Hyderabad", status: "Offline", phone: "+91 98765 43211" },
+// Only the three doctors below are available for patient registration and doctor login
+export const DOCTOR_LOGIN_ACCOUNTS = [
+  { id: 1, name: "Dr. Rajesh Kumar", specialty: "Cardiologist", hospital: "Government CHC Chevella", status: "Available", phone: "+91 98765 43210", mobile: "9876543210", otp: "123456" },
+  { id: 2, name: "Dr. Anita Sharma", specialty: "Pediatrician", hospital: "Government PHC Shabad", status: "Available", phone: "+91 87654 32109", mobile: "9876543211", otp: "234567" },
+  { id: 3, name: "Dr. Vikram Reddy", specialty: "Orthopedic Surgeon", hospital: "Govt Area Hospital, Kondapur", status: "Available", phone: "+91 76543 21098", mobile: "9876543212", otp: "345678" },
 ];
+
+export const MASTER_DOCTORS = DOCTOR_LOGIN_ACCOUNTS;
 
 // ─── SEED DEMO DATA ───────────────────────────────────
 export function seedSharedDemoData() {
@@ -243,7 +227,7 @@ export function seedSharedDemoData() {
     { patientName: "Vikram Joshi", doctorName: "Dr. Rajesh Kumar", hospitalName: "Government CHC Chevella", date: "2026-07-11", time: "09:00", reason: "Post-surgery follow-up" },
     { patientName: "Anita Desai", doctorName: "Dr. Rajesh Kumar", hospitalName: "Government CHC Chevella", date: "2026-07-11", time: "09:00", reason: "Chest discomfort" },
     { patientName: "Manoj Gupta", doctorName: "Dr. Vikram Reddy", hospitalName: "Govt Area Hospital, Kondapur", date: "2026-07-11", time: "11:00", reason: "Orthopedic consultation" },
-    { patientName: "Lakshmi Devi", doctorName: "Dr. Priya Patel", hospitalName: "Government CHC Chevella", date: "2026-07-11", time: "14:00", reason: "General checkup" },
+    { patientName: "Lakshmi Devi", doctorName: "Dr. Anita Sharma", hospitalName: "Government PHC Shabad", date: "2026-07-11", time: "14:00", reason: "General checkup" },
   ];
   
   demoPatients.forEach(p => {

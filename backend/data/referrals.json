@@ -140,5 +140,22 @@
     "recommendationScore": 96,
     "status": "Pending",
     "createdAt": "2026-07-08T12:04:58.969Z"
+  },
+  {
+    "id": 1783735957502,
+    "patientName": "Rushitha",
+    "age": "20",
+    "gender": "Female",
+    "condition": "Accident",
+    "severity": "High",
+    "currentHospital": "Area Hospital",
+    "recommendedHospital": "District Government Hospital",
+    "distance": "8.5 km",
+    "icuBeds": 12,
+    "ambulanceAvailability": "Available",
+    "medicineAvailability": "Available",
+    "recommendationScore": 96,
+    "status": "Pending",
+    "createdAt": "2026-07-11T02:12:37.502Z"
   }
 ]

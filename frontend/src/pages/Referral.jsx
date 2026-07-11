@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import Sidebar from "../layout/Sidebar";
 import Topbar from "../layout/Topbar";
 
@@ -8,6 +10,8 @@ import ReferralTimeline from "../components/ReferralTimeline";
 import ReferralHistory from "../components/ReferralHistory";
 
 function Referral() {
+
+    const [recommendation, setRecommendation] = useState(null);
 
     return (
 
@@ -47,9 +51,9 @@ function Referral() {
 
                     <div className="grid grid-cols-2 gap-8">
 
-                        <ReferralForm />
+                        <ReferralForm onRecommendationGenerated={setRecommendation} />
 
-                        <RecommendationCard />
+                        <RecommendationCard recommendation={recommendation} />
 
                     </div>
 

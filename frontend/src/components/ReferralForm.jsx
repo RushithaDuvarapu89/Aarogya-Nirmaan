@@ -2,7 +2,7 @@ import { useState } from "react";
 import { User, Stethoscope } from "lucide-react";
 
 
-function ReferralForm() {
+function ReferralForm({ onRecommendationGenerated }) {
 
 
     const [patient, setPatient] = useState({
@@ -82,6 +82,63 @@ function ReferralForm() {
 
             if(response.ok){
 
+                const referralData = data?.referral || data;
+
+                const reasons = [];
+
+                if (referralData?.recommendation?.reasons?.length) {
+                    reasons.push(...referralData.recommendation.reasons);
+                } else {
+                    reasons.push(
+                        patient.condition
+                            ? `Best match for ${patient.condition}`
+                            : "Best match for the provided condition"
+                    );
+
+                    if (patient.currentHospital) {
+                        reasons.push("Considers the current hospital context");
+                    }
+
+                    reasons.push(
+                        "Recommended based on availability, proximity, and resource readiness"
+                    );
+                }
+
+                const recommendation = {
+                    hospital:
+                        referralData?.recommendedHospital ||
+                        referralData?.recommendation?.hospital ||
+                        "AI Recommended Hospital",
+
+                    distance:
+                        referralData?.distance ||
+                        referralData?.recommendation?.distance ||
+                        "Based on the entered details",
+
+                    icu:
+                        referralData?.icuBeds ??
+                        referralData?.recommendation?.icu ??
+                        12,
+
+                    ambulance:
+                        referralData?.ambulanceAvailability ||
+                        referralData?.recommendation?.ambulance ||
+                        (referralData?.ambulanceAvailable ? "Available" : "On request"),
+
+                    medicines:
+                        referralData?.medicineAvailability ||
+                        referralData?.recommendation?.medicines ||
+                        (referralData?.medicinesAvailable ? "Available" : "Limited"),
+
+                    score:
+                        referralData?.recommendationScore ??
+                        referralData?.recommendation?.score ??
+                        92,
+
+                    reasons
+                };
+
+                onRecommendationGenerated?.(recommendation);
 
                 alert(
                     "Referral Created Successfully!"

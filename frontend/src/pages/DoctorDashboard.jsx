@@ -55,22 +55,21 @@ function DoctorDashboard() {
     // Load shared appointments for the selected doctor
     useEffect(() => {
         if (selectedDoctor) {
-            const appts = getApprovedAppointments(selectedDoctor.name);
+            const appts = getDoctorAppointments(selectedDoctor.name);
             setSharedAppointments(appts);
         } else {
-            // Show all approved appointments across all doctors
-            const allAppts = getApprovedAppointments();
+            const allAppts = getDoctorAppointments();
             setSharedAppointments(allAppts);
         }
     }, [selectedDoctor]);
 
     // Refresh when modal closes
     useEffect(() => {
-        if (!showPrescriptionModal && selectedDoctor) {
-            const appts = getApprovedAppointments(selectedDoctor.name);
+        if (!showPrescriptionModal) {
+            const appts = selectedDoctor ? getDoctorAppointments(selectedDoctor.name) : getDoctorAppointments();
             setSharedAppointments(appts);
         }
-    }, [showPrescriptionModal]);
+    }, [showPrescriptionModal, selectedDoctor]);
 
     // ─── Today's Appointments ──────────────────────────
     const [appointments, setAppointments] = useState([
@@ -233,7 +232,7 @@ function DoctorDashboard() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {filteredDoctors.map((doc, idx) => {
-                    const docAppts = getApprovedAppointments(doc.name);
+                    const docAppts = getDoctorAppointments(doc.name);
                     return (
                         <div
                             key={idx}
@@ -313,7 +312,7 @@ function DoctorDashboard() {
                     </div>
                     <div className="flex items-center gap-2">
                         <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
-                            {sharedAppointments.length} Approved Patient(s)
+                            {sharedAppointments.filter((appt) => appt.status !== "completed").length} OPD Patient(s)
                         </span>
                     </div>
                 </div>
@@ -382,10 +381,10 @@ function DoctorDashboard() {
                                     <div className="flex items-center justify-between mb-4">
                                         <div className="flex items-center gap-3">
                                             <Ticket className="text-blue-600" size={28} />
-                                            <h2 className="text-2xl font-bold text-gray-900">Patient Appointments (Token System)</h2>
+                                            <h2 className="text-2xl font-bold text-gray-900">Next OPD List (Token System)</h2>
                                         </div>
                                         <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
-                                            {sharedAppointments.length} Approved
+                                            {sharedAppointments.filter((appt) => appt.status !== "completed").length} Upcoming
                                         </span>
                                     </div>
                                     <div className="overflow-x-auto">
@@ -418,16 +417,27 @@ function DoctorDashboard() {
                                                         <td className="py-4 font-medium text-gray-900">{appt.patientName}</td>
                                                         <td className="py-4 text-gray-600 text-sm">{appt.hospitalName}</td>
                                                         <td className="py-4 text-gray-600 text-sm">{appt.date} {appt.time}</td>
-                                                        <td className="py-4 text-gray-600 text-sm">{appt.reason || "—"}</td>
+                                                        <td className="py-4 text-gray-600 text-sm">
+                                                            {appt.reason || "—"}
+                                                            {appt.recommendedHospital && (
+                                                                <div className="mt-2 rounded-lg border border-emerald-200 bg-emerald-50 px-2 py-2 text-[11px] text-emerald-700">
+                                                                    <div className="font-semibold">Best Hospital: {appt.recommendedHospital.name}</div>
+                                                                    <div>{appt.recommendedHospital.city}</div>
+                                                                    <div>ICU {appt.recommendedHospital.availableEmergencyIcuBeds} · Beds {appt.recommendedHospital.availableBeds} · Vent {appt.recommendedHospital.ventilators}</div>
+                                                                </div>
+                                                            )}
+                                                        </td>
                                                         <td className="py-4">
                                                             <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${
                                                                 appt.status === "approved" 
                                                                     ? "bg-green-100 text-green-700" 
                                                                     : appt.status === "in-consultation"
                                                                         ? "bg-purple-100 text-purple-700"
-                                                                        : "bg-gray-100 text-gray-600"
+                                                                        : appt.status === "pending"
+                                                                            ? "bg-amber-100 text-amber-700"
+                                                                            : "bg-gray-100 text-gray-600"
                                                             }`}>
-                                                                {appt.status === "approved" ? "✅ Approved" : appt.status === "in-consultation" ? "🩺 In Consultation" : appt.status}
+                                                                {appt.status === "approved" ? "✅ Approved" : appt.status === "in-consultation" ? "🩺 In Consultation" : appt.status === "pending" ? "⏳ Pending" : appt.status}
                                                             </span>
                                                         </td>
                                                     </tr>

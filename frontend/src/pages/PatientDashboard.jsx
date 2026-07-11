@@ -69,34 +69,24 @@ const medicinesData = [
     { name: "Snake Anti-Venom", category: "Critical Care", stock: 0, hospital: "Govt Area Hospital, Kondapur", status: "Out of Stock" }
 ];
 
-// Mock Appointments Queue list (Totals: 156 Today, 42 Waiting, 89 Completed)
+// Mock Appointments Queue list (limited to the three configured doctors)
 const appointmentsQueueData = [
     { patient: "Ramesh Pawar", doctor: "Dr. Rajesh Kumar", hospital: "Government CHC Chevella", time: "09:30 AM", status: "Completed" },
     { patient: "Savitri Devi", doctor: "Dr. Anita Sharma", hospital: "Government PHC Shabad", time: "10:00 AM", status: "Waiting" },
     { patient: "Balaji Rao", doctor: "Dr. Vikram Reddy", hospital: "Govt Area Hospital, Kondapur", time: "10:15 AM", status: "In Consultation" },
-    { patient: "Laxmi Prasanna", doctor: "Dr. Priya Patel", hospital: "Government CHC Chevella", time: "10:30 AM", status: "Waiting" },
-    { patient: "Narayana Swamy", doctor: "Dr. Sanjay Dutt", hospital: "Government PHC Shabad", time: "11:00 AM", status: "Completed" },
-    { patient: "Kavitha Reddy", doctor: "Dr. Meera Sen", hospital: "Govt Area Hospital, Kondapur", time: "11:15 AM", status: "Waiting" },
-    { patient: "Mallesh Goud", doctor: "Dr. Amit Verma", hospital: "Government CHC Chevella", time: "11:30 AM", status: "Waiting" },
-    { patient: "Shanthamma", doctor: "Dr. Shalini Gupta", hospital: "Government PHC Shabad", time: "12:00 PM", status: "Completed" },
-    { patient: "Yousuf Ali", doctor: "Dr. Rohan Das", hospital: "Govt Area Hospital, Kondapur", time: "12:15 PM", status: "Completed" },
-    { patient: "Anasuya Bai", doctor: "Dr. Sunita Rao", hospital: "Government CHC Chevella", time: "12:30 PM", status: "Waiting" },
-    { patient: "Jagdish Prasad", doctor: "Dr. Alok Mishra", hospital: "Government PHC Shabad", time: "01:00 PM", status: "Completed" },
-    { patient: "P. Venkat Ramana", doctor: "Dr. Neha Kapoor", hospital: "Govt Area Hospital, Kondapur", time: "01:30 PM", status: "Waiting" }
+    { patient: "Laxmi Prasanna", doctor: "Dr. Rajesh Kumar", hospital: "Government CHC Chevella", time: "10:30 AM", status: "Waiting" },
+    { patient: "Narayana Swamy", doctor: "Dr. Anita Sharma", hospital: "Government PHC Shabad", time: "11:00 AM", status: "Completed" },
+    { patient: "Kavitha Reddy", doctor: "Dr. Vikram Reddy", hospital: "Govt Area Hospital, Kondapur", time: "11:15 AM", status: "Waiting" }
 ];
 
-// Mock Free Slots for Today (Where appointments are available/free)
+// Mock Free Slots for Today (only the three configured doctors)
 const freeTimeSlotsData = [
     { doctor: "Dr. Rajesh Kumar", specialty: "Cardiologist", hospital: "Government CHC Chevella", time: "10:30 AM", status: "Available" },
     { doctor: "Dr. Rajesh Kumar", specialty: "Cardiologist", hospital: "Government CHC Chevella", time: "11:45 AM", status: "Available" },
     { doctor: "Dr. Anita Sharma", specialty: "Pediatrician", hospital: "Government PHC Shabad", time: "01:00 PM", status: "Available" },
     { doctor: "Dr. Anita Sharma", specialty: "Pediatrician", hospital: "Government PHC Shabad", time: "02:30 PM", status: "Available" },
     { doctor: "Dr. Vikram Reddy", specialty: "Orthopedic Surgeon", hospital: "Govt Area Hospital, Kondapur", time: "03:30 PM", status: "Available" },
-    { doctor: "Dr. Vikram Reddy", specialty: "Orthopedic Surgeon", hospital: "Govt Area Hospital, Kondapur", time: "04:30 PM", status: "Available" },
-    { doctor: "Dr. Priya Patel", specialty: "General Physician", hospital: "Government CHC Chevella", time: "09:00 AM", status: "Available" },
-    { doctor: "Dr. Priya Patel", specialty: "General Physician", hospital: "Government CHC Chevella", time: "11:15 AM", status: "Available" },
-    { doctor: "Dr. Sanjay Dutt", specialty: "Neurologist", hospital: "Government PHC Shabad", time: "03:15 PM", status: "Available" },
-    { doctor: "Dr. Meera Sen", specialty: "Gynecologist", hospital: "Govt Area Hospital, Kondapur", time: "02:00 PM", status: "Available" }
+    { doctor: "Dr. Vikram Reddy", specialty: "Orthopedic Surgeon", hospital: "Govt Area Hospital, Kondapur", time: "04:30 PM", status: "Available" }
 ];
 
 // Mock Emergency Cases & Ambulance Requests (Totals: 8 Active, 5 Ambulance Requests, 3 Critical)
@@ -110,6 +100,37 @@ const emergencyCasesData = [
     { patient: "Chennappa", condition: "Organophosphate Poisoning", village: "Raviryal", critical: false, ambulance: "Self-Transport", hospital: "Government CHC Chevella" },
     { patient: "Radhika", condition: "Accidental Chemical Burns", village: "Urella", critical: false, ambulance: "Arrived", hospital: "Govt Area Hospital, Kondapur" }
 ];
+
+function getBestHospitalDetails(doctorName, hospitalName) {
+    const baseHospital = hospitalBedsData.find((item) => item.name === hospitalName) || hospitalBedsData[0];
+    const reasons = [];
+
+    if (doctorName) {
+        reasons.push(`Doctor assigned: ${doctorName}`);
+    }
+    if (baseHospital.availableEmergencyIcuBeds > 0) {
+        reasons.push("ICU beds available");
+    }
+    if (baseHospital.availableVentilators > 0) {
+        reasons.push("Ventilator support available");
+    }
+    if (baseHospital.availableBeds > 0) {
+        reasons.push("Beds available");
+    }
+
+    return {
+        name: baseHospital.name,
+        city: baseHospital.city,
+        availableBeds: baseHospital.availableBeds,
+        availableEmergencyIcuBeds: baseHospital.availableEmergencyIcuBeds,
+        ventilators: baseHospital.availableVentilators,
+        ambulance: baseHospital.ambulance || "On duty",
+        distance: "4 km",
+        eta: "12 min",
+        score: 96,
+        reasons,
+    };
+}
 
 function PatientDashboard() {
     // Modal states
@@ -140,6 +161,7 @@ function PatientDashboard() {
         reason: ""
     });
     const [bookingSuccess, setBookingSuccess] = useState(false);
+    const [recommendedHospital, setRecommendedHospital] = useState(null);
 
     // Stats values state
     const [todayApptsCount, setTodayApptsCount] = useState(156);
@@ -168,6 +190,11 @@ function PatientDashboard() {
             setBookingForm(prev => ({ ...prev, patientName: loggedInPatient.name }));
         }
     }, [showBookingModal]);
+
+    useEffect(() => {
+        const nextRecommendation = getBestHospitalDetails(bookingForm.doctorName, bookingForm.hospitalName);
+        setRecommendedHospital(nextRecommendation);
+    }, [bookingForm.doctorName, bookingForm.hospitalName]);
 
     // Group 1: Appointments (Replaced Patient Registrations)
     const appointmentStats = [
@@ -243,43 +270,39 @@ function PatientDashboard() {
         e.preventDefault();
         
         const loggedInPatient = JSON.parse(localStorage.getItem("patient") || "null");
+        const registration = addPatientRegistration({
+            patientName: bookingForm.patientName,
+            doctorName: bookingForm.doctorName,
+            hospitalName: bookingForm.hospitalName,
+            date: bookingForm.date,
+            time: bookingForm.time,
+            reason: bookingForm.reason,
+            recommendedHospital: recommendedHospital,
+        });
         
+        setTodayApptsCount(prev => prev + 1);
+        setPendingApptsCount(prev => prev + 1);
+        
+        // Update shared stats
+        const stats = getDashboardStats();
+        setSharedStats(stats);
+
         if (loggedInPatient && loggedInPatient._id) {
             try {
-                const res = await fetch(`http://localhost:5000/api/patients/${loggedInPatient._id}/appointments`, {
+                await fetch(`http://localhost:5000/api/patients/${loggedInPatient._id}/appointments`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
                         doctorName: bookingForm.doctorName,
                         hospitalName: bookingForm.hospitalName,
                         date: bookingForm.date,
-                        time: bookingForm.time
+                        time: bookingForm.time,
+                        registrationId: registration.id,
                     }),
                 });
-                if (res.ok) {
-                    setTodayApptsCount(prev => prev + 1);
-                    setPendingApptsCount(prev => prev + 1);
-                }
             } catch (err) {
                 console.error("Failed to post appointment to backend", err);
             }
-        } else {
-            // Save to shared data store for receptionist & doctor
-            const registration = addPatientRegistration({
-                patientName: bookingForm.patientName,
-                doctorName: bookingForm.doctorName,
-                hospitalName: bookingForm.hospitalName,
-                date: bookingForm.date,
-                time: bookingForm.time,
-                reason: bookingForm.reason,
-            });
-            
-            setTodayApptsCount(prev => prev + 1);
-            setPendingApptsCount(prev => prev + 1);
-            
-            // Update shared stats
-            const stats = getDashboardStats();
-            setSharedStats(stats);
         }
 
         setBookingSuccess(true);
@@ -563,6 +586,34 @@ function PatientDashboard() {
                                         placeholder="Brief description of symptoms/reason..."
                                     />
                                 </div>
+
+                                {recommendedHospital && (
+                                    <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
+                                        <div className="flex items-start justify-between gap-3">
+                                            <div>
+                                                <h3 className="text-sm font-semibold text-emerald-800">Best Hospital Details</h3>
+                                                <p className="text-sm text-emerald-700">{recommendedHospital.name}</p>
+                                                <p className="text-xs text-emerald-600">{recommendedHospital.city}</p>
+                                            </div>
+                                            <span className="rounded-full bg-emerald-600 px-2.5 py-1 text-[10px] font-semibold text-white">
+                                                Score {recommendedHospital.score}
+                                            </span>
+                                        </div>
+                                        <div className="mt-3 grid grid-cols-2 gap-3 text-sm text-emerald-700">
+                                            <div>Available Beds: <span className="font-semibold">{recommendedHospital.availableBeds}</span></div>
+                                            <div>ICU Beds: <span className="font-semibold">{recommendedHospital.availableEmergencyIcuBeds}</span></div>
+                                            <div>Ventilators: <span className="font-semibold">{recommendedHospital.ventilators}</span></div>
+                                            <div>Ambulance: <span className="font-semibold">{recommendedHospital.ambulance}</span></div>
+                                        </div>
+                                        <div className="mt-3 flex flex-wrap gap-2">
+                                            {recommendedHospital.reasons.map((reason) => (
+                                                <span key={reason} className="rounded-full bg-white px-2.5 py-1 text-[10px] font-medium text-emerald-700 shadow-sm">
+                                                    {reason}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
 
                                 <div className="flex gap-4 pt-4">
                                     <button 

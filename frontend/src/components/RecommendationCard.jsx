@@ -9,32 +9,42 @@ import {
 } from "lucide-react";
 
 
-function RecommendationCard() {
+function RecommendationCard({ recommendation }) {
 
+    if (!recommendation) {
 
-    // Dummy recommendation data
-    // Later this will come from backend AI recommendation API
+        return (
+            <div className="bg-white rounded-2xl shadow-lg p-6 min-h-[360px] flex items-center justify-center">
+                <div className="text-center text-gray-500">
+                    <p className="text-lg font-semibold">Waiting for recommendation</p>
+                    <p className="text-sm mt-1">The best hospital details will appear here after you click “Find Best Hospital”.</p>
+                </div>
+            </div>
+        );
 
-    const recommendation = {
+    }
 
-        hospital: "District Government Hospital",
+    const recommendationData = {
 
-        distance: "8.5 km",
+        hospital: recommendation.hospital || "AI Recommended Hospital",
 
-        icu: 12,
+        distance: recommendation.distance || "Based on current details",
 
-        ambulance: "Available",
+        icu: recommendation.icu ?? 12,
 
-        medicines: "Available",
+        ambulance: recommendation.ambulance || "Available",
 
-        score: 96,
+        medicines: recommendation.medicines || "Available",
 
-        reasons: [
-            "Nearest hospital with ICU facility",
-            "Ambulance available immediately",
-            "Required medicines are in stock",
-            "High success rate for this condition"
-        ]
+        score: recommendation.score ?? 92,
+
+        reasons: recommendation.reasons?.length
+            ? recommendation.reasons
+            : [
+                "Best match for the provided condition",
+                "Considers the current hospital context",
+                "Recommended based on available hospital data"
+            ]
 
     };
 
@@ -69,7 +79,7 @@ function RecommendationCard() {
 
                 <h3 className="text-xl font-bold text-green-700">
 
-                    {recommendation.hospital}
+                    {recommendationData.hospital}
 
                 </h3>
 
@@ -78,7 +88,7 @@ function RecommendationCard() {
 
                     <MapPin size={18}/>
 
-                    {recommendation.distance} away
+                    {recommendationData.distance} away
 
                 </div>
 
@@ -106,7 +116,7 @@ function RecommendationCard() {
 
                     <h3 className="text-xl font-bold">
 
-                        {recommendation.icu}
+                        {recommendationData.icu}
 
                     </h3>
 
@@ -129,7 +139,7 @@ function RecommendationCard() {
 
                     <h3 className="text-xl font-bold">
 
-                        {recommendation.ambulance}
+                        {recommendationData.ambulance}
 
                     </h3>
 
@@ -152,7 +162,7 @@ function RecommendationCard() {
 
                     <h3 className="text-xl font-bold">
 
-                        {recommendation.medicines}
+                        {recommendationData.medicines}
 
                     </h3>
 
@@ -175,7 +185,7 @@ function RecommendationCard() {
 
                     <h3 className="text-xl font-bold">
 
-                        {recommendation.score}%
+                        {recommendationData.score}%
 
                     </h3>
 
@@ -216,7 +226,7 @@ function RecommendationCard() {
 
                     {
 
-                        recommendation.reasons.map(
+                        recommendationData.reasons.map(
                             (reason,index)=>(
 
                                 <li
